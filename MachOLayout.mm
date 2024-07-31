@@ -1497,10 +1497,13 @@ struct CompareSectionByName
   {
     struct section_64 const * section_64 = *sectIter;
     
-    MVNode * sectionNode = [self findNodeByUserInfo:[self userInfoForSection64:section_64]];
-    NSParameterAssert(sectionNode != nil);
+    NSDictionary *info = [self userInfoForSection64:section_64];
+    MVNode * sectionNode = [self findNodeByUserInfo:info];
+    // 解析dSYM文件时，sectionNode不存在
+    //    NSParameterAssert(sectionNode != nil);
     if (sectionNode == nil)
     {
+      NSLog(@"未找到节点");
       return;
     }
     
